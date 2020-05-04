@@ -4,7 +4,7 @@ services:
       beerblog_server:
         build: ./BeerBlog/BeerBlog/
         ports: 
-          - 8083:8000
+          - 8001:8000
         depends_on:
           - mongodb_beerblog
         volumes:
@@ -23,32 +23,32 @@ services:
         command: mongod
 
 
-      # admin_server:
-      #   build: ./admin/admin/
-      #   ports: 
-      #     - 8082:8000
-      #   depends_on:
-      #     - mongodb_auth
-      #   environment:
-      #     WAIT_HOSTS: mongodb_auth:27017
+      admin_server:
+        build: ./admin/admin/
+        ports: 
+          - 8002:8000
+        depends_on:
+          - mongodb_auth
+        environment:
+          WAIT_HOSTS: mongodb_auth:27017
 
 
-      # auth_server:
-      #   build: ./auth/auth/
-      #   ports: 
-      #     - 8081:8080
-      #   depends_on:
-      #     - mongodb_auth
-      #   environment:
-      #     WAIT_HOSTS: mongodb_auth:27017
+      auth_server:
+        build: ./auth/auth/
+        ports: 
+          - 8003:8080
+        depends_on:
+          - mongodb_auth
+        environment:
+          WAIT_HOSTS: mongodb_auth:27017
 
-      # mongodb_auth:
-      #   image: mongo:latest
-      #   container_name: mongodb_auth
-      #   environment:
-      #     - MONGODB_USER="user" 
-      #     - MONGODB_PASS="pass"
-      #   volumes:
-      #     - ./auth/auth/data/db:/data/db
-      #   command: mongod
+      mongodb_auth:
+        image: mongo:latest
+        container_name: mongodb_auth
+        environment:
+          - MONGODB_USER="user" 
+          - MONGODB_PASS="pass"
+        volumes:
+          - ./auth/auth/data/db:/data/db
+        command: mongod
 
